@@ -1,0 +1,33 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE, socialLinks } from "../consts";
+---
+<Base title="About" description={`About ${SITE.author} and ${SITE.title}.`}>
+  <section class="wrap">
+    <h1 class="title">About</h1>
+    <p>
+      I'm {SITE.author}, a Data &amp; AI architect. <strong>{SITE.title} (S³)</strong> is my personal space for
+      making complex technology practical and understandable, and occasionally entertaining.
+    </p>
+    <p>
+      <strong>{SITE.series}</strong> is the experiment series. Each project starts with a question, uses traceable
+      open data, picks tools for the job rather than for the logo count, and ends with an honest result and its limits.
+    </p>
+    <h2>Principles</h2>
+    <ul>
+      <li>Real data, with sources and licences cited. Anything illustrative is labelled.</li>
+      <li>Every figure in a post comes from the analysis export, not retyped by hand.</li>
+      <li>Business-friendly explanations first; technical depth where it helps.</li>
+      <li>Curiosity first. Some projects solve real problems; some deliberately over-engineer small ones.</li>
+    </ul>
+    <h2>Connect</h2>
+    <p>
+      {socialLinks.map(({ label, url }, i) => <>{i > 0 && " · "}<a href={url} rel="me noopener" target="_blank">{label}</a></>)}
+    </p>
+    <h2>Disclosure</h2>
+    <p>{SITE.disclosure}</p>
+    <p class="muted">{SITE.licence}</p>
+  </section>
+</Base>
+
+<style>.title { margin-top: 3rem; }</style>

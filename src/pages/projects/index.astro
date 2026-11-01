@@ -1,0 +1,40 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getPosts } from "../../lib/posts";
+import { withBase } from "../../lib/site";
+
+const projects = (await getPosts()).filter((p) => p.data.project);
+const categories = { real: "Real problems, smart solutions", curiosity: "Curiosity-driven experiment", overengineered: "Beautifully unnecessary engineering" };
+---
+<Base title="Projects" description="Data in Motion: open-data experiments, each with a question, a method and a result.">
+  <section class="wrap-wide">
+    <h1 class="title">Data in Motion</h1>
+    <p class="muted intro">Each project starts with one question, uses real open data with its sources cited, and ends with a finding and its limits.</p>
+    <div class="grid">
+      {projects.map(({ id, data }) => (
+        <a class="card" href={withBase(`/blog/${id}/`)}>
+          {data.heroImage && <img src={withBase(data.heroImage)} alt={data.heroAlt ?? ""} loading="lazy" />}
+          <div class="text">
+            <p class="eyebrow">{categories[data.project!.category]}</p>
+            <h2>{data.title}</h2>
+            <p><strong>Question:</strong> {data.project!.question}</p>
+            <p><strong>Finding:</strong> {data.project!.finding}</p>
+            <ul class="tags">{data.project!.tools.map((t) => <li>{t}</li>)}</ul>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .title { margin-top: 3rem; }
+  .intro { max-width: 60ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; text-decoration: none; color: var(--text); background: var(--surface); }
+  .card:hover { border-color: var(--coral); }
+  img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
+  .text { padding: 1rem 1.25rem 1.25rem; }
+  h2 { margin: 0.25rem 0 0.75rem; font-size: 1.3rem; }
+  p { font-size: 0.95rem; margin: 0.4rem 0; }
+</style>

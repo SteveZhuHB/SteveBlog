@@ -1,0 +1,14 @@
+---
+import Base from "../../layouts/Base.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPosts } from "../../lib/posts";
+const posts = await getPosts();
+---
+<Base title="Blog" description="All posts from Small Solid Steps.">
+  <section class="wrap">
+    <h1 class="title">Blog</h1>
+    {posts.map((post) => <PostCard post={post} />)}
+  </section>
+</Base>
+
+<style>.title { margin-top: 3rem; }</style>

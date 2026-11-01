@@ -1,0 +1,21 @@
+---
+// A row of headline figures. Values are passed in already formatted from exported data.
+interface Props { items: { value: string; label: string }[] }
+const { items } = Astro.props;
+---
+<dl class="stats">
+  {items.map((s) => (
+    <div>
+      <dt>{s.label}</dt>
+      <dd>{s.value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .stats div { background: var(--surface); border-radius: var(--radius); padding: 1rem; display: flex; flex-direction: column-reverse; }
+  dd { margin: 0; font-size: 1.6rem; font-weight: 800; color: var(--coral-deep); line-height: 1.1; }
+  @media (prefers-color-scheme: dark) { dd { color: var(--coral); } }
+  dt { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+</style>

@@ -1,0 +1,15 @@
+{
+  "$comment": "What each post publishes. 'from' is <root>:<path>; the roots are local folders named in artifacts.local.json (git-ignored). 'pick' keeps only those top-level keys of a JSON file.",
+  "london-urban-evolution": [
+    { "from": "video:out/london-urban-evolution-deck.html", "to": "public/projects/london-urban-evolution/deck.html" },
+    { "from": "gis:exports/london_urban_evolution.html", "to": "public/projects/london-urban-evolution/map.html" },
+    { "from": "gis:exports/london_urban_evolution.frame1.png", "to": "public/projects/london-urban-evolution/map-up-to-period.png" },
+    { "from": "gis:exports/london_urban_evolution.cohorts.png", "to": "public/projects/london-urban-evolution/map-this-period.png" },
+    { "from": "video:public/video/london/insight-poster.jpg", "to": "public/projects/london-urban-evolution/thames-2020s.jpg" },
+    {
+      "from": "video:data/london/facts.json",
+      "to": "src/data/london-urban-evolution.json",
+      "pick": ["snapshotDate", "lsoas", "boroughs", "periods", "londonKnownTotal", "londonPublishedKnownTotal", "londonUnknown", "londonSourceTotal", "areaKm2", "suppressedShare", "topBoroughsLatest", "sources", "quality", "geometryType", "spatialFunctions", "run", "columnLineageEvents", "columnsTraced", "tableLineageEdges"]
+    }
+  ]
+}

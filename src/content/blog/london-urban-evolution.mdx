@@ -1,0 +1,142 @@
+---
+title: "London Urban Evolution: when were London's homes built?"
+description: "Every home in London has a recorded build period. I mapped all of them across 4,994 neighbourhoods and 14 periods of history, with Databricks doing the data work and kepler.gl drawing the map."
+pubDate: 2026-11-01
+series: "Data in Motion"
+tags: ["Open data", "GIS", "Databricks", "Spatial SQL", "kepler.gl", "London"]
+heroImage: "/projects/london-urban-evolution/map-up-to-period.png"
+heroAlt: "Map of London's neighbourhoods coloured by the density of homes built up to 2026"
+draft: false
+project:
+  question: "Where, and when, did London's housing grow?"
+  finding: "About a fifth of London's homes predate 1900, the 1930s left the biggest single mark, and the newest homes are concentrated along the river in the east."
+  category: "curiosity"
+  tools: ["Databricks Free Edition", "Spatial SQL", "Unity Catalog", "kepler.gl", "Remotion"]
+  status: "published"
+---
+
+import facts from "../../data/london-urban-evolution.json";
+import Exhibits from "../../components/Exhibits.astro";
+import Figure from "../../components/Figure.astro";
+import Stats from "../../components/Stats.astro";
+import Sources from "../../components/Sources.astro";
+import Checks from "../../components/Checks.astro";
+import { fmt, pct, millions } from "../../lib/site";
+
+export const total = facts.londonKnownTotal;
+export const period = (label) => facts.periods.find((p) => p.label === label);
+export const share = (label) => period(label).built / total;
+export const latest = facts.periods[facts.periods.length - 1];
+export const overPublished = facts.londonKnownTotal / facts.londonPublishedKnownTotal - 1;
+
+Walk down almost any London street and you're walking through layers of history: Victorian terraces, 1930s semis, post-war estates, glass towers by the river. I wanted to see those layers all at once, so I asked one question:
+
+**Where, and when, did London's housing grow?**
+
+The Valuation Office Agency (VOA) records a build period for every property in the Council Tax list. That makes it possible to map the age of London's housing, neighbourhood by neighbourhood.
+
+<Stats
+  items={[
+    { value: `about ${millions(total)}`, label: "homes with a recorded build period" },
+    { value: fmt(facts.lsoas), label: "neighbourhoods (2021 LSOAs)" },
+    { value: fmt(facts.boroughs), label: "boroughs" },
+    { value: String(facts.periods.length), label: "build periods, pre-1900 to March 2026" },
+  ]}
+/>
+
+## Explore it yourself
+
+<Exhibits
+  items={[
+    {
+      href: "/projects/london-urban-evolution/map.html",
+      title: "Interactive map",
+      note: "Play London from pre-1900 to 2026, switch between 'up to this period' and 'this period only', and hover any neighbourhood.",
+      size: "Large file (about 68 MB). Best on a desktop browser.",
+    },
+    {
+      href: "/projects/london-urban-evolution/deck.html",
+      title: "Click-through story",
+      note: "The whole project in ten animated slides. Click or press → to advance.",
+      size: "About 5 MB. Works offline once loaded.",
+    },
+  ]}
+/>
+
+## What the map shows
+
+The map has two views, both in homes per km² so they can be compared directly:
+
+- **Up to this period:** every home still standing in 2026 that was built in or before the selected period. Press play and the city fills in.
+- **This period only:** just the homes recorded for that period, so each era's footprint stands out.
+
+<Figure
+  src="/projects/london-urban-evolution/map-this-period.png"
+  alt="Map of London showing, for one build period, where the homes of that period are concentrated"
+  caption="'This period only' view: each era's footprint stands out on its own."
+  credit="Map: kepler.gl. Basemap © CARTO, © OpenStreetMap contributors. Data: VOA and ONS, Open Government Licence v3.0."
+/>
+
+## What stands out
+
+**Old London is still here.** About {pct(share("Pre-1900"))} of the homes with a known build period date from before 1900. That's {fmt(period("Pre-1900").built)} homes, more than any other period.
+
+**The 1930s left the biggest single mark.** The interwar decade from 1930 to 1939 accounts for about {pct(share("1930–1939"))} of today's homes, roughly {fmt(period("1930–1939").built)}. That's more than any other decade in the timeline.
+
+**The newest London is being built along the river.** Switch to "this period only" and step to {latest.label}, and the new homes cluster in the east, around the Royal Docks, Greenwich Peninsula and Barking Riverside. The top five boroughs for that period are {facts.topBoroughsLatest.map((b) => b.borough).join(", ")}.
+
+<Figure
+  src="/projects/london-urban-evolution/thames-2020s.jpg"
+  alt="Close-up of the Thames estuary showing neighbourhoods with many homes built since 2020"
+  caption={`${latest.label}, 'this period only': new homes cluster along the river in the east.`}
+  credit="Map: kepler.gl. Basemap © CARTO, © OpenStreetMap contributors. Data: VOA and ONS, Open Government Licence v3.0."
+/>
+
+One important reading note: this is **London's housing as it stands in March 2026**, grouped by when each home was built. Demolished homes aren't in it. So older periods look smaller than they were at the time, and the map shows surviving housing, not the city's physical expansion.
+
+## How it was built
+
+I split the work between tools that are each good at one thing:
+
+- **Databricks did the heavy lifting.** It handled ingestion, spatial processing, modelling and quality checks. It ran on the Databricks Free Edition with serverless compute, so there were no clusters to manage.
+  - The geometry stays in British National Grid (<code>{facts.geometryType}</code>) and is processed with native spatial SQL: {facts.spatialFunctions.join(", ")}.
+  - The pipeline is defined as code in a bundle and runs as one job: ingest, then model, then export. The last full run took about {Math.round(facts.run.seconds / 30) / 2} minutes.
+  - Unity Catalog recorded the lineage automatically: {fmt(facts.tableLineageEdges)} table-to-table links and {fmt(facts.columnLineageEvents)} column-level lineage events. Every figure on the map traces back to the raw file it came from.
+- **kepler.gl drew the map.** It's a specialist open-source GIS tool, good at large interactive maps with time playback.
+
+## Making messy data honest
+
+Real public data is rarely tidy, and this dataset has two quirks that matter.
+
+**Small counts are hidden.** For privacy, the VOA rounds counts to the nearest 10 and replaces counts from 1 to 4 with `[c]`. {pct(facts.suppressedShare)} of London's neighbourhoods have at least one hidden count. Dropping those values would have blanked most of the map. Instead, each hidden value carries an estimate of 2.5 with bounds of 1 and 4, and every value that includes an estimate is flagged.
+
+**Neighbourhood sums run slightly high.** Added up across London, the neighbourhood figures come to {fmt(facts.londonKnownTotal)} homes. The VOA's own London total is {fmt(facts.londonPublishedKnownTotal)}, so the sum runs about {pct(overPublished, 1)} higher, mostly in the recent periods. Treat recent-period neighbourhood counts as approximate.
+
+The pipeline checks itself on every run and stops if any check fails:
+
+<Checks checks={facts.quality} />
+
+## Limits
+
+- This is housing that survives in 2026, not historical housing stock.
+- The source has no 1940–1944 category, and none is invented; the timeline shows the gap.
+- Single build years after 2008 are grouped into 2009–2014, 2015–2019 and 2020–March 2026, because most single-year counts are hidden.
+- "2020–Mar 2026" covers only the first three months of 2026.
+- Periods are equally spaced on the timeline, but they cover different lengths of time.
+
+## Method and sources
+
+<Sources sources={facts.sources} />
+
+Source: Valuation Office Agency and Office for National Statistics, licensed under the Open Government Licence v3.0. Contains OS data © Crown copyright and database right. Each source file is fingerprinted with SHA-256 and recorded in a source manifest, and ingestion refuses any file whose checksum doesn't match.
+
+**Steps in plain English:**
+1. Take the "all bands" rows for every London neighbourhood (2021 LSOAs, joined by code, no spatial join).
+2. Group single build years into the three recent periods.
+3. Estimate hidden counts with bounds.
+4. Compute cumulative and per-period density on the official boundaries.
+5. Check everything, then export the map.
+
+## What's next
+
+The same pipeline can go further: hexagon-based analysis with H3, natural-language questions about the data, and interoperability with enterprise GIS tools. We could have done this in a spreadsheet. But then the map wouldn't move.

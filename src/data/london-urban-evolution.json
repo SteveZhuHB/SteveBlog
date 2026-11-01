@@ -1,0 +1,226 @@
+{
+  "snapshotDate": "2026-03-31",
+  "lsoas": 4994,
+  "boroughs": 33,
+  "periods": [
+    {
+      "order": 1,
+      "label": "Pre-1900",
+      "built": 804445,
+      "cumulative": 804445,
+      "published": 802000
+    },
+    {
+      "order": 2,
+      "label": "1900–1918",
+      "built": 317805,
+      "cumulative": 1122250,
+      "published": 315430
+    },
+    {
+      "order": 3,
+      "label": "1919–1929",
+      "built": 241442.5,
+      "cumulative": 1363692.5,
+      "published": 238990
+    },
+    {
+      "order": 4,
+      "label": "1930–1939",
+      "built": 615250,
+      "cumulative": 1978942.5,
+      "published": 612870
+    },
+    {
+      "order": 5,
+      "label": "1945–1954",
+      "built": 195862.5,
+      "cumulative": 2174805,
+      "published": 193130
+    },
+    {
+      "order": 6,
+      "label": "1955–1964",
+      "built": 243767.5,
+      "cumulative": 2418572.5,
+      "published": 241340
+    },
+    {
+      "order": 7,
+      "label": "1965–1972",
+      "built": 216967.5,
+      "cumulative": 2635540,
+      "published": 214700
+    },
+    {
+      "order": 8,
+      "label": "1973–1982",
+      "built": 215055,
+      "cumulative": 2850595,
+      "published": 212770
+    },
+    {
+      "order": 9,
+      "label": "1983–1992",
+      "built": 163247.5,
+      "cumulative": 3013842.5,
+      "published": 160770
+    },
+    {
+      "order": 10,
+      "label": "1993–1999",
+      "built": 126680,
+      "cumulative": 3140522.5,
+      "published": 124230
+    },
+    {
+      "order": 11,
+      "label": "2000–2008",
+      "built": 207557.5,
+      "cumulative": 3348080,
+      "published": 204510
+    },
+    {
+      "order": 12,
+      "label": "2009–2014",
+      "built": 157457.5,
+      "cumulative": 3505537.5,
+      "published": 149700
+    },
+    {
+      "order": 13,
+      "label": "2015–2019",
+      "built": 180730,
+      "cumulative": 3686267.5,
+      "published": 172600
+    },
+    {
+      "order": 14,
+      "label": "2020–Mar 2026",
+      "built": 196262.5,
+      "cumulative": 3882530,
+      "published": 188110
+    }
+  ],
+  "londonKnownTotal": 3882530,
+  "londonPublishedKnownTotal": 3831150,
+  "londonUnknown": 35677.5,
+  "londonSourceTotal": 3866050,
+  "areaKm2": 1573.3363875302812,
+  "suppressedShare": 0.9483380056067281,
+  "topBoroughsLatest": [
+    {
+      "borough": "Tower Hamlets",
+      "built": 15785
+    },
+    {
+      "borough": "Newham",
+      "built": 12892.5
+    },
+    {
+      "borough": "Brent",
+      "built": 12547.5
+    },
+    {
+      "borough": "Ealing",
+      "built": 12000
+    },
+    {
+      "borough": "Wandsworth",
+      "built": 11175
+    }
+  ],
+  "sources": [
+    {
+      "file": "london_lsoa_lookup.csv",
+      "title": "LSOA (2021) to Built Up Area (2022) to LAD (2022) to Region (2022) Lookup in England and Wales (v2)",
+      "release": "ONS Open Geography Portal",
+      "snapshotDate": "2022-12-31",
+      "licence": "Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)",
+      "sha256": "f8d9c4dd861db308d7543bbf94c5a61cc54842ddb130e22173791cbf348ae58e"
+    },
+    {
+      "file": "housing.csv",
+      "title": "Council Tax: stock of properties, 2026. Table CTSOP4.1 (property build period, LSOA/MSOA)",
+      "release": "VOA Official Statistics published 24 September 2026; database extract 31 March 2026",
+      "snapshotDate": "2026-03-31",
+      "licence": "Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)",
+      "sha256": "2c777457fa07f01f6fca6de9da0d38cb95e1b7b510cd373bdc053f0b18b653e5"
+    },
+    {
+      "file": "boundaries.geojson",
+      "title": "Lower layer Super Output Areas (December 2021) Boundaries EW BGC (V5)",
+      "release": "ONS Open Geography Portal, generalised (20m) clipped to coastline, V5",
+      "snapshotDate": "2021-12-31",
+      "licence": "Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)",
+      "sha256": "bb627362732e4c068a6ac7295ac240226ccc44fccc42c07cbe14f0f3d8251b76"
+    }
+  ],
+  "quality": [
+    {
+      "check": "Every London neighbourhood present",
+      "value": "4,994 of 4,994",
+      "passed": true
+    },
+    {
+      "check": "One row per neighbourhood and period",
+      "value": "69,916 rows",
+      "passed": true
+    },
+    {
+      "check": "Running totals never decrease",
+      "value": "0 exceptions",
+      "passed": true
+    },
+    {
+      "check": "Final frame equals known total",
+      "value": "0 mismatches",
+      "passed": true
+    },
+    {
+      "check": "Every geometry valid",
+      "value": "0 invalid",
+      "passed": true
+    },
+    {
+      "check": "Totals reconcile within rounding",
+      "value": "latest run success",
+      "passed": true
+    }
+  ],
+  "geometryType": "GEOMETRY(27700)",
+  "spatialFunctions": [
+    "st_geomfromgeojson",
+    "st_setsrid",
+    "st_transform",
+    "st_area",
+    "st_simplify",
+    "st_isvalid"
+  ],
+  "run": {
+    "job": "london-urban-evolution-pipeline",
+    "startedAt": "2026-10-30T20:23:26.092Z",
+    "seconds": 153,
+    "state": "SUCCESS",
+    "tasks": [
+      {
+        "key": "ingest",
+        "seconds": 51.5,
+        "state": "SUCCESS"
+      },
+      {
+        "key": "model",
+        "seconds": 79.4,
+        "state": "SUCCESS"
+      },
+      {
+        "key": "export",
+        "seconds": 21,
+        "state": "SUCCESS"
+      }
+    ]
+  },
+  "columnLineageEvents": 2074,
+  "columnsTraced": 179,
+  "tableLineageEdges": 13
+}

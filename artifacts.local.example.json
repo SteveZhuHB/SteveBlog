@@ -1,0 +1,8 @@
+{
+  "$comment": "Copy to artifacts.local.json (git-ignored) and point the roots at your private project folders. 'forbidden' lists extra words that must never be published (for example employer or client names); it stays private.",
+  "roots": {
+    "video": "/absolute/path/to/your/video-project",
+    "gis": "/absolute/path/to/your/gis-project"
+  },
+  "forbidden": []
+}

@@ -1,0 +1,24 @@
+---
+// Source table for "Method and sources": title, release, snapshot, licence and checksum from the export manifest.
+interface Props { sources: { title: string; release: string; snapshotDate: string; licence: string; sha256: string }[] }
+const { sources } = Astro.props;
+const licenceLink = (l: string) => {
+  const m = l.match(/^(.*?)\s*\((https?:[^)]+)\)$/);
+  return m ? { text: m[1], href: m[2] } : { text: l, href: undefined };
+};
+---
+<table>
+  <thead><tr><th>Dataset</th><th>Release</th><th>Licence</th></tr></thead>
+  <tbody>
+    {sources.map((s) => {
+      const lic = licenceLink(s.licence);
+      return (
+        <tr>
+          <td>{s.title}<br /><small class="muted">SHA-256 <code>{s.sha256.slice(0, 12)}…</code></small></td>
+          <td>{s.release}<br /><small class="muted">as at {s.snapshotDate}</small></td>
+          <td>{lic.href ? <a href={lic.href}>{lic.text}</a> : lic.text}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>

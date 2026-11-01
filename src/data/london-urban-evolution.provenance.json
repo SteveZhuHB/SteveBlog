@@ -1,0 +1,36 @@
+{
+  "slug": "london-urban-evolution",
+  "importedAt": "2026-11-01T20:27:08.435Z",
+  "files": [
+    {
+      "path": "public/projects/london-urban-evolution/deck.html",
+      "bytes": 4987440,
+      "sha256": "4882b7ac303a13234dd387e76642b0fe47c73b3c0616624939a18b25d22e62f1"
+    },
+    {
+      "path": "public/projects/london-urban-evolution/map.html",
+      "bytes": 68219327,
+      "sha256": "818861455feba78da3aef07cb802cd89bc1078dcb2be4fabb7be79cae463a66f"
+    },
+    {
+      "path": "public/projects/london-urban-evolution/map-up-to-period.png",
+      "bytes": 745678,
+      "sha256": "2582ce1d9ee68594c7d140be2f9abc6a889224f49186be460454382eeac816fd"
+    },
+    {
+      "path": "public/projects/london-urban-evolution/map-this-period.png",
+      "bytes": 835903,
+      "sha256": "e9d7789f27b5794242feed1132ae83a2002ca7989e883724d69d7331c4302729"
+    },
+    {
+      "path": "public/projects/london-urban-evolution/thames-2020s.jpg",
+      "bytes": 488904,
+      "sha256": "92c6b89a6d00c189016191f090a12b4a6095288559d590b39f610239772fdd2f"
+    },
+    {
+      "path": "src/data/london-urban-evolution.json",
+      "bytes": 5496,
+      "sha256": "5dd335df5832bbbbbd0184a49b18d3020d4271864472fa1c3bb34693248c9dcc"
+    }
+  ]
+}

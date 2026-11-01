@@ -1,0 +1,23 @@
+---
+import { SITE, socialLinks } from "../consts";
+import { withBase } from "../lib/site";
+---
+<footer>
+  <div class="wrap-wide">
+    <p class="tag">{SITE.title} · {SITE.tagline}</p>
+    <p class="muted">{SITE.disclosure}</p>
+    <p class="muted">{SITE.licence}</p>
+    <p class="links">
+      {socialLinks.map(({ label, url }) => <a href={url} rel="me noopener" target="_blank">{label}</a>)}
+      <a href={withBase("/rss.xml")}>RSS</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  footer { border-top: 1px solid var(--line); margin-top: 4rem; padding: 2rem 0 3rem; font-size: 0.85rem; }
+  .tag { font-weight: 700; color: var(--navy); }
+  @media (prefers-color-scheme: dark) { .tag { color: var(--text); } }
+  p { margin: 0.3rem 0; }
+  .links { display: flex; gap: 1rem; margin-top: 0.75rem; }
+</style>

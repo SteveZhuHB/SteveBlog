@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Base from "./Base.astro";
+import { formatDate, readingMinutes, withBase } from "../lib/site";
+
+interface Props { post: CollectionEntry<"blog"> }
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, series, heroImage, heroAlt, draft } = post.data;
+const minutes = readingMinutes(post.body);
+---
+<Base title={title} description={description} image={heroImage}>
+  <article class="wrap">
+    <header class="head">
+      {draft && <p class="draft">Draft: not published</p>}
+      {series && <p class="eyebrow">{series}</p>}
+      <h1>{title}</h1>
+      <p class="lede">{description}</p>
+      <p class="meta muted">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        {updatedDate && <> · updated <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></>}
+        · {minutes} min read
+      </p>
+      {tags.length > 0 && <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>}
+    </header>
+    {heroImage && <img class="hero" src={withBase(heroImage)} alt={heroAlt ?? ""} />}
+    <div class="body"><slot /></div>
+  </article>
+</Base>
+
+<style>
+  .head { padding: 3rem 0 1.5rem; }
+  .lede { font-size: 1.2rem; color: var(--muted); margin: 0.5rem 0 1rem; }
+  .meta { font-size: 0.9rem; margin: 0; }
+  .hero { border-radius: var(--radius); margin: 0 0 2rem; }
+  .draft { background: var(--coral); color: #fff; display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
+  .body :global(p), .body :global(li) { max-width: 68ch; }
+</style>

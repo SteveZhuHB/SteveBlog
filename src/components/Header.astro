@@ -1,0 +1,34 @@
+---
+import { SITE } from "../consts";
+import { withBase } from "../lib/site";
+
+const path = Astro.url.pathname;
+const nav = [
+  { href: withBase("/blog/"), label: "Blog" },
+  { href: withBase("/projects/"), label: "Projects" },
+  { href: withBase("/about/"), label: "About" },
+];
+---
+<header>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap-wide bar">
+    <a class="brand" href={withBase("/")} aria-label={`${SITE.title} home`}>
+      <picture>
+        <source srcset={withBase("/brand/s3-lockup-reverse.png")} media="(prefers-color-scheme: dark)" />
+        <img src={withBase("/brand/s3-lockup.png")} alt={SITE.title} width="160" height="46" />
+      </picture>
+    </a>
+    <nav aria-label="Main">
+      {nav.map((n) => <a href={n.href} aria-current={path.startsWith(n.href) ? "page" : undefined}>{n.label}</a>)}
+    </nav>
+  </div>
+</header>
+
+<style>
+  header { border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; flex-wrap: wrap; }
+  .brand img { width: 160px; height: auto; }
+  nav { display: flex; gap: 1.25rem; }
+  nav a { color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+  nav a[aria-current="page"], nav a:hover { color: var(--coral); }
+</style>

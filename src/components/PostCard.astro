@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDate, readingMinutes, withBase } from "../lib/site";
+interface Props { post: CollectionEntry<"blog"> }
+const { post } = Astro.props;
+const { title, description, pubDate, heroImage, heroAlt, series } = post.data;
+---
+<article class="card">
+  {heroImage && <img src={withBase(heroImage)} alt={heroAlt ?? ""} loading="lazy" />}
+  <div>
+    {series && <p class="eyebrow">{series}</p>}
+    <h3><a href={withBase(`/blog/${post.id}/`)}>{title}</a></h3>
+    <p class="muted">{description}</p>
+    <p class="meta muted">{formatDate(pubDate)} · {readingMinutes(post.body)} min read</p>
+  </div>
+</article>
+
+<style>
+  .card { display: grid; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--line); }
+  @media (min-width: 640px) { .card:has(img) { grid-template-columns: 220px 1fr; } }
+  img { border-radius: 8px; aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
+  h3 { margin: 0.2rem 0 0.4rem; }
+  h3 a { color: var(--text); text-decoration: none; }
+  h3 a:hover { color: var(--coral); }
+  p { margin: 0.25rem 0; }
+  .meta { font-size: 0.85rem; }
+</style>

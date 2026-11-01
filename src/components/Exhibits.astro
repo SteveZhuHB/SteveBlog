@@ -1,0 +1,25 @@
+---
+// Links to a post's full-page exhibits (interactive map, click-through deck), each opened on its own.
+import { withBase } from "../lib/site";
+interface Props { items: { href: string; title: string; note: string; size?: string }[] }
+const { items } = Astro.props;
+---
+<div class="exhibits">
+  {items.map((e) => (
+    <a class="card" href={withBase(e.href)} target="_blank" rel="noopener">
+      <strong>{e.title} ↗</strong>
+      <span>{e.note}</span>
+      {e.size && <small>{e.size}</small>}
+    </a>
+  ))}
+</div>
+
+<style>
+  .exhibits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .card { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.1rem 1.2rem; border: 1px solid var(--line); border-left: 4px solid var(--coral); border-radius: var(--radius); text-decoration: none; color: var(--text); background: var(--surface); }
+  .card:hover { border-color: var(--coral); }
+  strong { color: var(--navy); }
+  @media (prefers-color-scheme: dark) { strong { color: var(--text); } }
+  span { font-size: 0.92rem; color: var(--muted); }
+  small { font-size: 0.78rem; color: var(--muted); }
+</style>

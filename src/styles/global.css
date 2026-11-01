@@ -1,0 +1,64 @@
+/* S³ tokens: navy and coral from the logo, lots of white space. */
+:root {
+  --navy: #2c3f5d;
+  --navy-deep: #18243a;
+  --coral: #eb6f56;
+  --coral-deep: #c9533c;
+  --bg: #ffffff;
+  --surface: #f5f7fa;
+  --text: #1b2433;
+  --muted: #5d6b80;
+  --line: #e2e7ee;
+  --link: #c9533c;
+  --code-bg: #f1f3f7;
+  --max: 720px;
+  --wide: 1080px;
+  --radius: 12px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1726;
+    --surface: #18243a;
+    --text: #e8edf4;
+    --muted: #9fadc2;
+    --line: #2a3a55;
+    --link: #f6a895;
+    --code-bg: #1c2a42;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 18px/1.65 var(--font);
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--link); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+h1, h2, h3 { line-height: 1.2; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2rem, 5vw, 2.8rem); margin: 0 0 0.5rem; }
+h2 { font-size: 1.5rem; margin: 2.5rem 0 0.75rem; }
+h3 { font-size: 1.15rem; margin: 1.75rem 0 0.5rem; }
+code { font: 0.88em var(--mono); background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 4px; }
+pre { background: var(--code-bg); padding: 1rem; border-radius: var(--radius); overflow-x: auto; }
+pre code { background: none; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; display: block; overflow-x: auto; }
+th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+.wrap-wide { max-width: var(--wide); margin: 0 auto; padding: 0 16px; }
+.muted { color: var(--muted); }
+.eyebrow { color: var(--coral); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0.75rem 0 0; list-style: none; }
+.tags li { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0.1rem 0.6rem; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 16px; top: 8px; background: var(--bg); padding: 0.5rem; z-index: 10; }

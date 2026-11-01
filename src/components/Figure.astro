@@ -1,0 +1,21 @@
+---
+import { withBase } from "../lib/site";
+interface Props { src: string; alt: string; caption?: string; credit?: string }
+const { src, alt, caption, credit } = Astro.props;
+---
+<figure>
+  <img src={withBase(src)} alt={alt} loading="lazy" />
+  {(caption || credit) && (
+    <figcaption>
+      {caption}
+      {credit && <span class="credit">{credit}</span>}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  figure { margin: 2rem 0; }
+  img { border-radius: var(--radius); border: 1px solid var(--line); }
+  figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+  .credit { display: block; font-size: 0.75rem; margin-top: 0.2rem; }
+</style>
