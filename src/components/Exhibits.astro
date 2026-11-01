@@ -1,25 +1,75 @@
 ---
-// Links to a post's full-page exhibits (interactive map, click-through deck), each opened on its own.
+// Big, obviously clickable cards for a post's full-page exhibits (interactive map, click-through deck).
+// Each opens in a new tab. A card shows an image preview, or a styled slide preview when no image is given.
 import { withBase } from "../lib/site";
-interface Props { items: { href: string; title: string; note: string; size?: string }[] }
+interface Item { href: string; title: string; note: string; size?: string; cta: string; image?: string; imageAlt?: string; slideTitle?: string; badge?: string }
+interface Props { items: Item[] }
 const { items } = Astro.props;
 ---
 <div class="exhibits">
   {items.map((e) => (
     <a class="card" href={withBase(e.href)} target="_blank" rel="noopener">
-      <strong>{e.title} ↗</strong>
-      <span>{e.note}</span>
-      {e.size && <small>{e.size}</small>}
+      <div class="thumb">
+        {e.image ? (
+          <img src={withBase(e.image)} alt={e.imageAlt ?? ""} loading="lazy" />
+        ) : (
+          <div class="slide" aria-hidden="true">
+            <img class="mark" src={withBase("/brand/s3-lockup-reverse.png")} alt="" />
+            <span class="slide-title">{e.slideTitle ?? e.title}</span>
+            <span class="dots"><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        )}
+        {e.badge && <span class="badge">{e.badge}</span>}
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+        </span>
+      </div>
+      <div class="body">
+        <strong>{e.title}</strong>
+        <span class="note">{e.note}</span>
+        {e.size && <small>{e.size}</small>}
+        <span class="cta">{e.cta} <span aria-hidden="true">↗</span></span>
+      </div>
     </a>
   ))}
 </div>
+<p class="hint">Both open in a new tab.</p>
 
 <style>
-  .exhibits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 2rem 0; }
-  .card { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.1rem 1.2rem; border: 1px solid var(--line); border-left: 4px solid var(--coral); border-radius: var(--radius); text-decoration: none; color: var(--text); background: var(--surface); }
-  .card:hover { border-color: var(--coral); }
-  strong { color: var(--navy); }
+  .exhibits { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin: 2rem 0 0.5rem; }
+  .card {
+    display: flex; flex-direction: column; overflow: hidden; text-decoration: none; color: var(--text);
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 10px 28px -16px rgb(16 24 40 / 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--coral); box-shadow: 0 2px 4px rgb(16 24 40 / 0.06), 0 18px 36px -14px rgb(16 24 40 / 0.35); }
+  .card:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+
+  .thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #0d1524; }
+  .thumb > img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .card:hover .thumb > img { transform: scale(1.04); }
+  .slide { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; padding: 1.25rem 1.5rem;
+    background: radial-gradient(120% 90% at 85% 10%, rgb(235 111 86 / 0.35), transparent 55%), linear-gradient(135deg, #2c3f5d, #0d1524); }
+  .mark { width: 96px; opacity: 0.95; }
+  .slide-title { color: #fff; font-weight: 800; font-size: 1.35rem; line-height: 1.15; max-width: 14ch; }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 22px; height: 4px; border-radius: 2px; background: rgb(255 255 255 / 0.3); }
+  .dots i:first-child { background: var(--coral); }
+  .badge { position: absolute; top: 0.75rem; left: 0.75rem; background: rgb(13 21 36 / 0.8); color: #fff; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.6rem; border-radius: 999px; backdrop-filter: blur(4px); }
+  .play { position: absolute; right: 0.9rem; bottom: 0.9rem; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--coral); color: #fff; box-shadow: 0 6px 18px -4px rgb(235 111 86 / 0.7); transition: transform 0.2s ease; }
+  .card:hover .play { transform: scale(1.1); }
+
+  .body { display: flex; flex-direction: column; gap: 0.5rem; padding: 1rem 1.2rem 1.25rem; flex: 1; }
+  strong { font-size: 1.15rem; color: var(--navy); }
   @media (prefers-color-scheme: dark) { strong { color: var(--text); } }
-  span { font-size: 0.92rem; color: var(--muted); }
-  small { font-size: 0.78rem; color: var(--muted); }
+  .note { font-size: 0.92rem; color: var(--muted); }
+  small { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; }
+  .cta { margin-top: auto; align-self: flex-start; background: var(--coral); color: #fff; font-weight: 700; font-size: 0.95rem;
+    padding: 0.55rem 1rem; border-radius: 999px; transition: background 0.2s ease; }
+  .card:hover .cta { background: var(--coral-deep); }
+  .hint { font-size: 0.85rem; color: var(--muted); margin: 0 0 1.5rem; }
+  @media (prefers-reduced-motion: reduce) { .card, .thumb > img, .play, .cta { transition: none; } .card:hover { transform: none; } .card:hover .thumb > img, .card:hover .play { transform: none; } }
 </style>
