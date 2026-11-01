@@ -7,6 +7,9 @@ const projects = (await getPosts()).filter((p) => p.data.project);
 const categories = { real: "Real problems, smart solutions", curiosity: "Curiosity-driven experiment", overengineered: "Beautifully unnecessary engineering" };
 ---
 <Base title="Projects" description="Data in Motion: open-data experiments, each with a question, a method and a result.">
+  <div class="banner wrap-wide">
+    <img src={withBase("/brand/cards/practical-insights.jpg")} alt="Practical insights. From ideas to real value." width="1400" height="850" fetchpriority="high" />
+  </div>
   <section class="wrap-wide">
     <h1 class="title">Data in Motion</h1>
     <p class="muted intro">Each project starts with one question, uses real open data with its sources cited, and ends with a finding and its limits.</p>
@@ -28,12 +31,13 @@ const categories = { real: "Real problems, smart solutions", curiosity: "Curiosi
 </Base>
 
 <style>
-  .title { margin-top: 3rem; }
+  .title { margin-top: 2.5rem; }
+  .banner img { aspect-ratio: 5 / 2; object-fit: cover; object-position: center 40%; }
   .intro { max-width: 60ch; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
   .card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; text-decoration: none; color: var(--text); background: var(--surface); }
   .card:hover { border-color: var(--coral); }
-  img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
+  .card img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
   .text { padding: 1rem 1.25rem 1.25rem; }
   h2 { margin: 0.25rem 0 0.75rem; font-size: 1.3rem; }
   p { font-size: 0.95rem; margin: 0.4rem 0; }

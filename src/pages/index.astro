@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
+import Principles from "../components/Principles.astro";
 import { SITE } from "../consts";
 import { getPosts } from "../lib/posts";
 import { withBase } from "../lib/site";
@@ -8,6 +9,13 @@ import { withBase } from "../lib/site";
 const posts = (await getPosts()).slice(0, 5);
 ---
 <Base>
+  <div class="banner wrap-wide">
+    <img
+      src={withBase("/brand/hero.jpg")}
+      alt="Small Solid Steps by Steve. Think Big. Start Small. Build Solid. Data, AI, Architecture, Beyond. A hiker looks out over mountains and a lake at sunrise."
+      width="2000" height="667" fetchpriority="high"
+    />
+  </div>
   <section class="hero wrap">
     <p class="eyebrow">{SITE.series}</p>
     <h1>Serious tech. Curious minds. Occasionally ridiculous ideas.</h1>
@@ -16,7 +24,8 @@ const posts = (await getPosts()).slice(0, 5);
       the question, the choices and the result step by step.
     </p>
   </section>
-  <section class="wrap">
+  <Principles />
+  <section class="wrap latest">
     <h2>Latest</h2>
     {posts.map((post) => <PostCard post={post} />)}
     <p><a href={withBase("/blog/")}>All posts →</a></p>
@@ -24,6 +33,7 @@ const posts = (await getPosts()).slice(0, 5);
 </Base>
 
 <style>
-  .hero { padding: 4rem 16px 1rem; }
+  .hero { padding: 2.5rem 16px 0; }
   .lede { font-size: 1.2rem; color: var(--muted); }
+  .latest { margin-top: 1rem; }
 </style>

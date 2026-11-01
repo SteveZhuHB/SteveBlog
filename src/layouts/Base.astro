@@ -10,7 +10,7 @@ interface Props {
   description?: string;
   image?: string; // path under public/, used for social previews
 }
-const { title, description = SITE.description, image = "/brand/s3-lockup.png" } = Astro.props;
+const { title, description = SITE.description, image = "/brand/og-default.jpg" } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(withBase(image), Astro.site);
@@ -24,6 +24,8 @@ const ogImage = new URL(withBase(image), Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href={withBase("/favicon.png")} />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
+    <meta name="theme-color" content="#2c3f5d" />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href={withBase("/rss.xml")} />
     <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
     <meta property="og:type" content="website" />

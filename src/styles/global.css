@@ -62,3 +62,9 @@ th { color: var(--muted); font-weight: 600; }
 .tags li { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0.1rem 0.6rem; }
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 16px; top: 8px; background: var(--bg); padding: 0.5rem; z-index: 10; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Full-bleed brand banner used on landing pages */
+.banner { margin: 1.5rem auto 0; }
+.banner img { width: 100%; border-radius: var(--radius); box-shadow: 0 12px 40px -18px rgb(16 24 40 / 0.45); }
+@media (max-width: 640px) { .banner { padding: 0; } .banner img { border-radius: 0; } }

@@ -15,7 +15,7 @@ const nav = [
     <a class="brand" href={withBase("/")} aria-label={`${SITE.title} home`}>
       <picture>
         <source srcset={withBase("/brand/s3-lockup-reverse.png")} media="(prefers-color-scheme: dark)" />
-        <img src={withBase("/brand/s3-lockup.png")} alt={SITE.title} width="160" height="46" />
+        <img src={withBase("/brand/s3-lockup.png")} alt={SITE.title} width="900" height="337" />
       </picture>
     </a>
     <nav aria-label="Main">
@@ -27,7 +27,8 @@ const nav = [
 <style>
   header { border-bottom: 1px solid var(--line); }
   .bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; flex-wrap: wrap; }
-  .brand img { width: 160px; height: auto; }
+  .brand img { width: 150px; height: auto; }
+  @media (min-width: 640px) { .brand img { width: 180px; } }
   nav { display: flex; gap: 1.25rem; }
   nav a { color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
   nav a[aria-current="page"], nav a:hover { color: var(--coral); }

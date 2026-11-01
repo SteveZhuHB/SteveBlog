@@ -1,0 +1,30 @@
+---
+import { withBase } from "../lib/site";
+
+const items = [
+  { img: "/brand/cards/think-big.png", title: "Think Big", text: "See the bigger picture." },
+  { img: "/brand/cards/start-small.png", title: "Start Small", text: "Begin with practical steps." },
+  { img: "/brand/cards/build-solid.png", title: "Build Solid", text: "Create lasting value." },
+];
+---
+<section class="principles wrap-wide" aria-label="Principles">
+  {items.map((i) => (
+    <article class="card">
+      <img src={withBase(i.img)} alt={`${i.title}. ${i.text}`} loading="lazy" />
+    </article>
+  ))}
+</section>
+
+<style>
+  .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+  .card {
+    background: #fff; /* artwork is navy ink, so the card stays light in dark mode too */
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1rem; text-align: center;
+    box-shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 8px 24px -12px rgb(16 24 40 / 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgb(16 24 40 / 0.06), 0 16px 32px -12px rgb(16 24 40 / 0.18); }
+  img { width: min(240px, 85%); margin: 0 auto; }
+  @media (prefers-reduced-motion: reduce) { .card, .card:hover { transition: none; transform: none; } }
+</style>
