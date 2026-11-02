@@ -8,7 +8,7 @@ const { items } = Astro.props;
 ---
 <div class="exhibits">
   {items.map((e) => (
-    <a class="card" href={withBase(e.href)} target="_blank" rel="noopener">
+    <a class="card" href={withBase(e.href)} target="_blank" rel="noopener" data-goatcounter-click={e.href.replace(/^\//, "")} data-goatcounter-title={e.title}>
       <div class="thumb">
         {e.image ? (
           <img src={withBase(e.image)} alt={e.imageAlt ?? ""} loading="lazy" />
